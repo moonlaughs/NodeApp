@@ -113,22 +113,29 @@ export default class InputCard extends Component {
     }
 
     addNode(){
-        const newBody = {
-            nodeName: document.getElementById("newNodeName").value
+        var myValue = document.getElementById("newNodeName").value
+        if(myValue !== "" && myValue !== " "){
+            const newBody = {
+                nodeName: myValue
+            }
+    
+            fetch('https://localhost:5001/api/nodes/', {
+                method: 'POST',
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                  },
+                body: JSON.stringify(newBody)
+                })
+                .then(res => res.json())
+                .then(res => console.log(res))
+    
+                window.location.reload();
         }
-
-        fetch('https://localhost:5001/api/nodes/', {
-            method: 'POST',
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-              },
-            body: JSON.stringify(newBody)
-            })
-            .then(res => res.json())
-            .then(res => console.log(res))
-
-            window.location.reload();
+        else{
+            alert("please enter value")
+        }
+        
     }
 
     GetChildrenNodes(myParentId){
